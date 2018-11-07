@@ -1,0 +1,4 @@
+max_width = 80
+format_strings = true
+reorder_imports = true
+use_try_shorthand = true
