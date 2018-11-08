@@ -93,7 +93,7 @@ pub fn identify_line(line: &str) -> Line {
     } else if PREAMBLE_COMMENT.is_match(&line) {
         Line::PreambleComment
     } else {
-        match line.as_ref() {
+        match line {
             "--" => Line::EmptyComment,
             "" => Line::Empty,
             _ => Line::Content,
@@ -129,9 +129,9 @@ pub fn is_polymorph(f1: &Entity, f2: &Entity) -> Result<bool, EssenceError> {
     })
 }
 
-pub fn extract_function_name<'a>(
-    function: &'a Entity,
-) -> Result<&'a str, EssenceError> {
+pub fn extract_function_name(
+    function: &Entity,
+) -> Result<&str, EssenceError> {
     || -> Option<&str> {
         Some(
             FUNCTION_SIGNATURE
