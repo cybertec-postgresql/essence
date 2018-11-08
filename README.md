@@ -1,6 +1,9 @@
-# essence
+<p align="center">
+	<img src="https://user-images.githubusercontent.com/9287847/48205182-100c1300-e36c-11e8-9ac6-530b8a18d3da.png" height="200px"/></br>
+	<h1 align="center">essence</h1>
+</p>
 
-Partial rewrite of [pg_extractor](https://github.com/omniti-labs/pg_extractor).
+[essence](https://github.com/cybertec-postgresql/essence) is a partial rewrite of [pg_extractor](https://github.com/omniti-labs/pg_extractor).
 
 ## Benefits
 |Benefit|Description|      |
