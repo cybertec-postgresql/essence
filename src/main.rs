@@ -75,7 +75,7 @@ fn main() -> Result<(), EssenceError> {
                 mode = Mode::Body;
             }
             if current_line == Line::Content {
-                stream.write((unwrapped_line + "\n").as_bytes())?;
+                stream.write_all((unwrapped_line + "\n").as_bytes())?;
             }
         } else if mode == Mode::Body {
             if current_line == Line::MarkerComment {
@@ -103,7 +103,7 @@ fn main() -> Result<(), EssenceError> {
                                 == EntityType::Function
                                 && is_polymorph(&marker, &previous_marker)?
                             {
-                                stream.write("\n".as_bytes())?;
+                                stream.write_all("\n".as_bytes())?;
                             } else {
                                 let file = File::create(
                                     &schema_base_dir
@@ -190,7 +190,7 @@ fn main() -> Result<(), EssenceError> {
                 skip_next_empty_line = true;
             } else if current_line != Line::EmptyComment {
                 if !(current_line == Line::Empty && skip_next_empty_line) {
-                    stream.write((unwrapped_line + "\n").as_bytes())?;
+                    stream.write_all((unwrapped_line + "\n").as_bytes())?;
                 } else {
                     skip_next_empty_line = false;
                 }
