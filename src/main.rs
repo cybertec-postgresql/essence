@@ -29,7 +29,7 @@ struct Opt {
     preamble_name: String,
 }
 
-fn main() -> Result<(), EssenceError> {
+fn cli() -> Result<(), EssenceError> {
     let opt = Opt::from_args();
 
     if opt.recreate_base_dir {
@@ -46,6 +46,7 @@ fn main() -> Result<(), EssenceError> {
     let mut previous_line = Line::Empty;
 
     let mut skip_next_empty_line = false;
+    let mut skip_write = false;
 
     let mut line_number: u32 = 0;
 
@@ -78,6 +79,8 @@ fn main() -> Result<(), EssenceError> {
             }
         } else if mode == Mode::Body {
             if current_line == Line::MarkerComment {
+                skip_write = false;
+
                 let marker =
                     identify_marker(&unwrapped_line).ok_or_else(|| {
                         EssenceError::GarbledMarkerError(line_number)
@@ -138,12 +141,7 @@ fn main() -> Result<(), EssenceError> {
                             TYPE_FOLDER,
                             &mut stream,
                         )?,
-                        _ => {
-                            redirect_stream(
-                                File::open("/dev/null")?,
-                                &mut stream,
-                            )?;
-                        }
+                        _ => skip_write = true
                     }
 
                     previous_marker = marker;
@@ -177,19 +175,18 @@ fn main() -> Result<(), EssenceError> {
                             &role_base_dir,
                             &mut stream,
                         )?,
-                        _ => {
-                            redirect_stream(
-                                File::open("/dev/null")?,
-                                &mut stream,
-                            )?;
-                        }
+                        _ => skip_write = true
                     }
                 }
 
                 skip_next_empty_line = true;
+
+                stream.flush()?;
             } else if current_line != Line::EmptyComment {
                 if !(current_line == Line::Empty && skip_next_empty_line) {
-                    stream.write_all((unwrapped_line + "\n").as_bytes())?;
+                    if !skip_write {
+                        stream.write_all((unwrapped_line + "\n").as_bytes())?;
+                    }
                 } else {
                     skip_next_empty_line = false;
                 }
@@ -200,4 +197,8 @@ fn main() -> Result<(), EssenceError> {
     }
 
     Ok(())
+}
+
+fn main() {
+    cli().unwrap();
 }
