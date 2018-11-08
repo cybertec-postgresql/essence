@@ -102,7 +102,7 @@ impl fmt::Display for EssenceError {
             }
             EssenceError::BaseDirExistsError => write!(
                 f,
-                "Base directory already exists, specify '-d' to allow \
+                "Base directory already exists, specify '-r' to allow \
                  automcatic deletion."
             ),
         }
