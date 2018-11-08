@@ -1,15 +1,15 @@
 use std::fmt;
 use std::io;
 
-pub const EVENT_TRIGGER_FOLDER: &'static str = "event_triggers";
-pub const EXTENSION_FOLDER: &'static str = "extensions";
-pub const ROLE_FOLDER: &'static str = "roles";
-pub const SCHEMA_FOLDER: &'static str = "schemas";
+pub const EVENT_TRIGGER_FOLDER: &str = "event_triggers";
+pub const EXTENSION_FOLDER: &str = "extensions";
+pub const ROLE_FOLDER: &str = "roles";
+pub const SCHEMA_FOLDER: &str = "schemas";
 
-pub const FUNCTION_FOLDER: &'static str = "function";
-pub const TABLE_FOLDER: &'static str = "table";
-pub const TYPE_FOLDER: &'static str = "type";
-pub const VIEW_FOLDER: &'static str = "view";
+pub const FUNCTION_FOLDER: &str = "functions";
+pub const TABLE_FOLDER: &str = "tables";
+pub const TYPE_FOLDER: &str = "types";
+pub const VIEW_FOLDER: &str = "views";
 
 #[derive(PartialEq)]
 pub enum Mode {
