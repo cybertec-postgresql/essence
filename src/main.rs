@@ -11,7 +11,7 @@ use std::fs::{create_dir_all, remove_dir_all, File};
 use std::io;
 use std::io::BufRead;
 use std::io::Write;
-use std::path::{Path, PathBuf};
+use std::path::{PathBuf};
 
 use lib::*;
 
@@ -20,7 +20,7 @@ use structopt::StructOpt;
 #[derive(StructOpt, Debug)]
 #[structopt(name = "essence")]
 struct Opt {
-    #[structopt(short = "b", long = "base-dir", parse(from_os_str))]
+    #[structopt(name = "BASE_DIR", parse(from_os_str))]
     base_dir: PathBuf,
     /// Automatically re-create the specified base directory.
     #[structopt(short = "r", long = "recreate-base-dir")]
@@ -32,12 +32,11 @@ struct Opt {
 fn main() -> Result<(), EssenceError> {
     let opt = Opt::from_args();
 
-    if Path::new(&opt.base_dir).exists() && !&opt.recreate_base_dir {
-        return Err(EssenceError::BaseDirExistsError);
-    } else {
+    if opt.recreate_base_dir {
         remove_dir_all(&opt.base_dir).ok();
-        create_dir_all(&opt.base_dir)?;
     }
+
+    create_dir_all(&opt.base_dir)?;
 
     let mut mode = Mode::Preamble;
 
