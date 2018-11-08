@@ -4,7 +4,7 @@ use std::io;
 pub const EVENT_TRIGGER_FOLDER: &str = "event_triggers";
 pub const EXTENSION_FOLDER: &str = "extensions";
 pub const ROLE_FOLDER: &str = "roles";
-pub const SCHEMA_FOLDER: &str = "schemas";
+pub const SCHEMA_FOLDER: &str = "schema";
 
 pub const FUNCTION_FOLDER: &str = "functions";
 pub const TABLE_FOLDER: &str = "tables";
@@ -80,7 +80,6 @@ pub enum Line {
 
 #[derive(Debug)]
 pub enum EssenceError {
-    BaseDirExistsError,
     GarbledFunctionNameError(String),
     GarbledMarkerError(u32),
     IoError(io::Error),
@@ -100,11 +99,6 @@ impl fmt::Display for EssenceError {
             EssenceError::GarbledFunctionNameError(ref signature) => {
                 write!(f, "function signature garbled ({})", signature)
             }
-            EssenceError::BaseDirExistsError => write!(
-                f,
-                "Base directory already exists, specify '-r' to allow \
-                 automcatic deletion."
-            ),
         }
     }
 }
